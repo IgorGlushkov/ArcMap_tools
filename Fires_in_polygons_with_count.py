@@ -4,8 +4,6 @@ __license__ = "Apache v.2"
 
 import arcpy
 from arcpy import env
-import glob
-import datetime
 
 arcpy.env.overwriteOutput = True
 
