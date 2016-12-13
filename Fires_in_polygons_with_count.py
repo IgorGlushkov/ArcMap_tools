@@ -15,7 +15,7 @@ outWorkspace = env.workspace
 #path to fires data
 fp = r'd:\Thematic\Peatfires\Python\testdata\source\fires.shp'
 #path to polygon data
-pol = r'd:\Thematic\Peatfires\Python\testdata\source\peats.shp'
+pol = r'd:\Thematic\Peatfires\Python\testdata\source\peats1.shp'
 #name ID field -  unique name of polygon
 field = "peat_id"
 
@@ -39,10 +39,11 @@ arcpy.MakeFeatureLayer_management (sel_peatlands, "sel_peatlands")
 #Create a search cursor to step through the selected polygon features
 cursor = arcpy.UpdateCursor(sel_peatlands)
 for row in cursor:
-	print(row.getValue(field))
+	#print(row.getValue(field))
 	featureName = row.getValue(field)
 	#select each polygon
-	tmp=arcpy.SelectLayerByAttribute_management('sel_peatlands', "NEW_SELECTION", '"%s"='+str(featureName)%(field))
+	print '"%s"=%s'%(field,featureName)
+	tmp=arcpy.SelectLayerByAttribute_management('sel_peatlands', "NEW_SELECTION", '"%s"=%s'%(field,featureName))
 	#arcpy.FeatureClassToFeatureClass_conversion(tmp , outWorkspace, str(featureName)+'selpol')		
 	#select points inside slected polygon
 	arcpy.MakeFeatureLayer_management (tmp, "sel_poly")
@@ -69,7 +70,3 @@ for row in cursor:
 	cursor.updateRow(row)
 	row.setValue('Count', countstr)
 	cursor.updateRow(row)
-	#where='"ACQ_DATE" = date\'' + mindatestr[0:10]+'\''
-	#fmin=arcpy.SelectLayerByAttribute_management('fires'+str(featureName), "NEW_SELECTION", where)
-	#save
-	#arcpy.FeatureClassToFeatureClass_conversion(fmin , outWorkspace, str(featureName)+'minfire')
